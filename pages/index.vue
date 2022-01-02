@@ -16,8 +16,11 @@
       </button>
     </div>
 
+    <!-- Loading -->
+    <Loading v-if="$fetchState.pending" />
+
     <!-- Movies -->
-    <div class="container movies">
+    <div v-else class="container movies">
       <!-- Display searched movies -->
       <div v-if="searchInput !== ''" id="movie-grid" class="movies-grid">
         <div
@@ -117,6 +120,24 @@ export default {
       await this.searchMovies()
     }
   },
+  head() {
+    return {
+      title: 'Home - Movie App',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: 'Latest streaming movie',
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: 'movies, stream, streaming',
+        },
+      ],
+    }
+  },
+  fetchDelay: 1000,
   methods: {
     async getMovies() {
       const data = axios.get(
